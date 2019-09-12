@@ -9,23 +9,22 @@ import com.pp.Utils;
  */
 public abstract class Car {
 
-	private final String id;
-	private final String type;
+	public enum CarType{
+		GASOLINE, ELECTRIC_20KW, ELECTRIC_50KW
+	}
 	
+	private final String id;
+	private final CarType type;
+
 	/**
 	 * Constructor
-	 * @param id
-	 * @param type
+	 * @param id Registration number for the car. Can't be Null.
+	 * @param type {@link CarType}.
 	 */
-	public Car(String id, String type){
+	public Car(String id, CarType type){
 		
 		Utils.checkStringEmptyOrNull(id);
-		this.id = id; 
-		
-		Utils.checkStringEmptyOrNull(type);
-		if(!Utils.isValidCarType(type)){
-			throw new IllegalArgumentException("Type is not valid");
-		}
+		this.id = id; 		
 		this.type = type; 
 	}
 	
@@ -41,18 +40,8 @@ public abstract class Car {
 	 * Gets the type of vehicle.
 	 * @return
 	 */
-	public String getType(){
+	public CarType getType(){
 		return this.type;
 	}
 	
-	/**
-	 * Defining necessary values for objects of this class to choose from for Developer usage.
-	 * @author ppandey
-	 *
-	 */
-	public static final class Catalog{
-		public static String GASOLINE = "gasoline";
-		public static String ELECTRIC_20KW = "electic_20kw";
-		public static String ELECTRIC_50KW = "electic_50kw";
-	}
 }

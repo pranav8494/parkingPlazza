@@ -1,29 +1,33 @@
 package com.pp.bom;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 import com.pp.bom.parking.ParkingSlot;
 import com.pp.bom.vehicle.Car;
 
 public class ParkingTicket {
-	
+
 	private final String id;
 	private final Car car;
 	private final ParkingSlot slot;
 	private final DateTime entryDateTime;
-	private DateTime exitTime = null;
-	
-	public ParkingTicket(Car car, ParkingSlot slot){
+	private DateTime exitDateTime = null;
+	private Duration minutesParked = Duration.ZERO;
+	private long billingAmount = 0;
+	private boolean isBillPaid = false;
+
+	public ParkingTicket(Car car, ParkingSlot slot) {
 		this.car = car;
 		this.slot = slot;
-		this.id = car.getRegistrationId() + "_" + slot.getId() + "_" + this.entryDateTime;
 		this.entryDateTime = DateTime.now();
+		this.id = car.getRegistrationId() + "_" + slot.getId() + "_" + this.entryDateTime;
 	}
-	
-	public String getId(){
+
+	public String getId() {
 		return this.id;
 	}
-	
+
 	/**
 	 * @return the car
 	 */
@@ -48,20 +52,38 @@ public class ParkingTicket {
 	/**
 	 * @return the exitTime
 	 */
-	public DateTime getExitTime() {
-		return exitTime;
+	public DateTime getExitDateTime() {
+		return exitDateTime;
+	}
+	
+	protected final void setBillingAmount(long billingAmount){
+		this.billingAmount = billingAmount;
+	}
+	
+	public final long getBillingAmount(){
+		return this.billingAmount;
+	}
+	
+	protected final void setIsBillPaid(boolean isBillPaid){
+		
+		this.isBillPaid = isBillPaid;
 	}
 
+	public final boolean isBillPaid(){
+		return this.isBillPaid;
+	}
 	/**
-	 * Sets the exit time for a Car on the {@link ParkingTicket}.
+	 * Sets the exit time for a Car on the {@link ParkingTicket} and returns the
+	 * duration car was parked. If the exit time on the ticket is already
+	 * registered, returns the minutes parked based on the save exit time.
 	 */
-	public final boolean setExitTime(){
-		if(this.exitTime == null){
-			this.exitTime = DateTime.now();
-			return true;
-		}
-		else{
-			throw new IllegalStateException("Car already maked as exiting, Can't exit a car once it already exited :P");
+	protected final Duration setExitDateTime() {
+		if (this.exitDateTime == null) {
+			this.exitDateTime = DateTime.now();
+			this.minutesParked = new Duration(this.entryDateTime, this.exitDateTime);
+			return this.minutesParked;
+		} else {
+			return this.minutesParked;
 		}
 	}
 }

@@ -1,27 +1,24 @@
 package com.pp.bom.vehicle;
 
 import com.pp.Utils;
+import com.pp.bom.CarTypeEnum;
 
 /**
  * Class to represent any vehicle of type CAR.
  * @author ppandey
  *
  */
-public abstract class Car {
-
-	public enum CarType{
-		GASOLINE, ELECTRIC_20KW, ELECTRIC_50KW
-	}
+public class Car {
 	
 	private final String id;
-	private final CarType type;
+	private final CarTypeEnum type;
 
 	/**
 	 * Constructor
 	 * @param id Registration number for the car. Can't be Null.
 	 * @param type {@link CarType}.
 	 */
-	public Car(String id, CarType type){
+	public Car(String id, CarTypeEnum type){
 		
 		Utils.checkStringEmptyOrNull(id);
 		this.id = id; 		
@@ -40,7 +37,7 @@ public abstract class Car {
 	 * Gets the type of vehicle.
 	 * @return
 	 */
-	public CarType getType(){
+	public CarTypeEnum getType(){
 		return this.type;
 	}
 	

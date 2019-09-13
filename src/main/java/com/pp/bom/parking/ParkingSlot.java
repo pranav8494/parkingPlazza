@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.joda.time.DateTime;
 
 import com.google.common.base.Optional;
+import com.pp.bom.CarTypeEnum;
 import com.pp.bom.ParkingTicket;
 import com.pp.bom.vehicle.Car;
 
@@ -16,18 +17,8 @@ import com.pp.bom.vehicle.Car;
  */
 public abstract class ParkingSlot {
 
-	/**
-	 * Available Parking slots types in system.
-	 * 
-	 * @author ppandey
-	 *
-	 */
-	public enum SlotType {
-		GASOLINE, ELECTRIC_20KW, ELECTRIC_50KW
-	}
-
 	private final String id;
-	private final SlotType slotType;
+	private final CarTypeEnum slotType;
 	private Optional<Car> assignedCar;
 	private boolean isSlotFree = true;
 
@@ -38,7 +29,7 @@ public abstract class ParkingSlot {
 	 * @param id
 	 * @param slotType
 	 */
-	public ParkingSlot(String id, SlotType slotType) {
+	public ParkingSlot(String id, CarTypeEnum slotType) {
 
 		this.id = id + "_" + UUID.randomUUID().toString();
 		this.slotType = slotType;
@@ -59,7 +50,7 @@ public abstract class ParkingSlot {
 	 * 
 	 * @return
 	 */
-	public SlotType getSlotType() {
+	public CarTypeEnum getSlotType() {
 		return this.slotType;
 	}
 
@@ -95,57 +86,6 @@ public abstract class ParkingSlot {
 			this.assignedCar = Optional.absent();
 			this.isSlotFree = true;
 			return Optional.fromNullable(DateTime.now());
-		}
-	}
-
-	/**
-	 * Class to instantiate Parking slot for Gasoline cars.
-	 * 
-	 * @author ppandey
-	 */
-	public class ParkingSlotForGasoline extends ParkingSlot {
-
-		/**
-		 * Constructor.
-		 * 
-		 * @param id
-		 */
-		public ParkingSlotForGasoline(String id) {
-			super(id, SlotType.GASOLINE);
-		}
-	}
-
-	/**
-	 * Class to instantiate Parking slot for Electric 20KW cars.
-	 * 
-	 * @author ppandey
-	 */
-	public class ParkingSlotForElectric20kw extends ParkingSlot {
-
-		/**
-		 * Constructor.
-		 * 
-		 * @param id
-		 */
-		public ParkingSlotForElectric20kw(String id) {
-			super(id, SlotType.ELECTRIC_20KW);
-		}
-	}
-
-	/**
-	 * Class to instantiate Parking slot for Electric 50KW cars.
-	 * 
-	 * @author ppandey
-	 */
-	public class ParkingSlotForElectric50kw extends ParkingSlot {
-
-		/**
-		 * Constructor.
-		 * 
-		 * @param id
-		 */
-		public ParkingSlotForElectric50kw(String id) {
-			super(id, SlotType.ELECTRIC_50KW);
 		}
 	}
 }

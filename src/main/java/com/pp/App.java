@@ -3,12 +3,20 @@
  */
 package com.pp;
 
+import com.pp.bom.Address;
+import com.pp.bom.TollParking;
+import com.pp.bom.pricingPolicy.ParkingRate;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.pp.bom.*;
+
 public class App {
-    public String getGreeting() {
-        return "Hello world.";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    	
+
+    
     }
 }

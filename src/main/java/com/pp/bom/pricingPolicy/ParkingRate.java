@@ -31,7 +31,7 @@ public interface ParkingRate {
 
 		private long hourlyFee = 0;
 		private RatePolicy ratePolicy = RatePolicy.HOURLY_ONLY;
-		private HourlyParkingRate(long hourlyFee) {
+		public HourlyParkingRate(long hourlyFee) {
 
 			this.hourlyFee = hourlyFee;
 		}
@@ -64,7 +64,7 @@ public interface ParkingRate {
 		private long hourlyFee = 0;
 		private long fixedFee = 0;
 		private RatePolicy ratePolicy = RatePolicy.HOURLY_ONLY;
-		private HourlyWithFixedParkingRate(long hourlyFee, long fixedFee) {
+		public HourlyWithFixedParkingRate(long hourlyFee, long fixedFee) {
 
 			this.hourlyFee = hourlyFee;
 			this.fixedFee = fixedFee;

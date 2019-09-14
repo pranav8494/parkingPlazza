@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Optional;
 import com.pp.bom.Address;
 import com.pp.bom.CarTypeEnum;
+import com.pp.bom.ParkingTicket;
 import com.pp.bom.TollParking;
 import com.pp.bom.pricingPolicy.ParkingRate;
 import com.pp.bom.vehicle.Car;
@@ -51,7 +52,8 @@ public class TollParkingTest {
 		Assert.assertTrue("Should have got a parking.", this.parking.requestParking(g2).isPresent());
 		Assert.assertTrue("Should have got a parking.", this.parking.requestParking(g3).isPresent());
 		Assert.assertTrue("Should have got a parking.", this.parking.requestParking(g4).isPresent());
-		Assert.assertTrue("Should have got a parking.", this.parking.requestParking(e20k1).isPresent());
+		Optional<ParkingTicket> ticketE30K1 = this.parking.requestParking(e20k1);
+		Assert.assertTrue("Should have got a parking.", ticketE30K1.isPresent());
 		Assert.assertTrue("Should have got a parking.", this.parking.requestParking(e20k2).isPresent());
 		Assert.assertTrue("Should not have got a parking.", !this.parking.requestParking(e20k3).isPresent());
 		Assert.assertTrue("Should have got a parking.", this.parking.requestParking(e50k1).isPresent());
@@ -60,8 +62,9 @@ public class TollParkingTest {
 		// Exiting parking
 		Optional<String> e50k1TicketId = this.parking.exitParking(e50k1);
 		Assert.assertTrue("Bill should be there.", e50k1TicketId.isPresent());
-		if(e50k1TicketId.isPresent())
+		if(e50k1TicketId.isPresent()){
 			LOG.info("Bill ID: " + e50k1TicketId.get());
+		}
 		
 		// Exit a car which is not in parking
 		Optional<String> e50k2TicketId = this.parking.exitParking(e50k2);
@@ -71,7 +74,19 @@ public class TollParkingTest {
 		// Request next slot after last car exit
 		Assert.assertTrue("Should have got a parking.", this.parking.requestParking(e50k2).isPresent());
 		
+		// Car with empty id
+		try {
+			new Car("", CarTypeEnum.GASOLINE);
+			Assert.assertTrue("Should have thrown an IllegalArgumentException.", false);
+		} catch (IllegalArgumentException e) {
+			Assert.assertTrue(true);
+		} catch (Exception e) {
+			Assert.assertTrue("Should have thrown an IllegalArgumentException.", false);
+		}
 		
+		// Request for slot for a Car already assigned a slot
+		Optional<ParkingTicket> ticket = this.parking.requestParking(e20k1);
+		Assert.assertTrue(ticket.isPresent() && ticket.get().getId().equals(ticketE30K1.get().getId()));
 		
 		LOG.info("All Unpaid bills: {}" , parking.getAllUnpaidBillDetail());
 	}

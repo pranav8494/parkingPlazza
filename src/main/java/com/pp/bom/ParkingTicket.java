@@ -17,7 +17,7 @@ public class ParkingTicket {
 	private long billingAmount = 0;
 	private boolean isBillPaid = false;
 
-	public ParkingTicket(Car car, ParkingSlot slot) {
+	protected ParkingTicket(Car car, ParkingSlot slot) {
 		this.car = car;
 		this.slot = slot;
 		this.entryDateTime = DateTime.now();

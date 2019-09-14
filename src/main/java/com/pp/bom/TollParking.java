@@ -126,7 +126,8 @@ public class TollParking {
 	 * available an {@link Optional} absent is returned.
 	 * 
 	 * @param car
-	 * @return
+	 * @return {@link Optional} of {@link ParkingTicket}. If given {@link Car}
+	 *         already has a parking slot, returns the existing tiket.
 	 */
 	public Optional<ParkingTicket> requestParking(Car car) {
 
@@ -136,7 +137,8 @@ public class TollParking {
 		// Checking if car is already in system. Could enhance to check for
 		// unpaid bill in archived bills.
 		if (this.parkingAssignmentMap.values().contains(car.getRegistrationId())) {
-			throw new IllegalStateException("Car already assigned a parking slot.");
+			LOG.warn("Car {} already has a slot assigned", car.getRegistrationId());
+			return Optional.fromNullable(this.parkingTicketMapByCar.get(car.getRegistrationId()));
 		}
 		Optional<ParkingSlot> slot = getFreeParkingSlotByType(car.getType());
 		if (slot.isPresent()) {
@@ -185,8 +187,9 @@ public class TollParking {
 			this.parkingAssignmentMap.remove(ticket.getSlot().getId(), car.getRegistrationId());
 			this.parkingSlotTable.put(ticket.getSlot().getSlotType(), ticket.getSlot(), true);
 
-			LOG.info("[EXIT PARKING] - Parking Ticket found for car: {}  ->  billing: {} --> ticket: {}", car.toString(), result, ticket.toString());
-			
+			LOG.info("[EXIT PARKING] - Parking Ticket found for car: {}  ->  billing: {} --> ticket: {}",
+					car.toString(), result, ticket.toString());
+
 			return Optional.fromNullable(ticket.getId());
 		} else {
 			LOG.info("[EXIT PARKING] - No parking Ticket found for car: {}", car.toString());

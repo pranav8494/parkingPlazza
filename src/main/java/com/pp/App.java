@@ -3,12 +3,9 @@
  */
 package com.pp;
 
-import com.pp.bom.Address;
-import com.pp.bom.TollParking;
 import com.pp.bom.pricingPolicy.ParkingRate;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import com.pp.bom.*;
 
@@ -16,7 +13,15 @@ public class App {
 
     public static void main(String[] args) {
     	
-
+    	Address lotAddress = new Address("Route de Nice", "Antibes", "06600", "FR");
+    	HashMap<CarTypeEnum, Integer> slotCapacity = new HashMap<CarTypeEnum, Integer>();
+    	slotCapacity.put(CarTypeEnum.GASOLINE, 4);
+    	slotCapacity.put(CarTypeEnum.ELECTRIC_20KW, 2);
+    	slotCapacity.put(CarTypeEnum.ELECTRIC_50KW, 1);
+    	
+    	ParkingRate rate = new ParkingRate.HourlyWithFixedParkingRate(1,20);
+    	TollParking parking = new TollParking("Hello Parking LOT", lotAddress, slotCapacity, rate);
     
+    	// Do Something here to use parking.
     }
 }

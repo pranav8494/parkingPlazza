@@ -47,7 +47,14 @@ The BOM for project was under package `com.pp.bom`.  Following BOM have been add
  	* [`ParkingForGasolineCar`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/parking/ParkingForGasolineCar.java)
  	* [`ParkingForElectric20KW`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/parking/ParkingForElectric20KW.java)
  	* [`ParkingForElectric50KW`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/parking/ParkingForElectric50KW.java)
-* [ParkingTicket](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/ParkingTicket.java): This is created everytime a `ParkingSlot` is assigned to a `Car`. The constructor and all the setters are `protected` to protect the instantiation. Each parking ticket gets a unique ID.
+* [ParkingTicket](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/ParkingTicket.java): This is created everytime a `ParkingSlot` is assigned to a `Car`. The constructor and all the setters are `protected` to protect the instantiation. Each parking ticket gets a unique ID. Following methods are publically accessible:
+  * `getId()`
+  * `getCar()`
+  * `getSlot()` 
+  * `getEntryDateTime()`
+  * `getExitDateTime()`
+  * `getBillingAmount()`
+  * `isBillPaid()`
 * [`TollParking`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/TollParking.java): Contains all the business logic for the operating the parking plazza. To instantiate an object of this class,
 
 ```
@@ -65,7 +72,7 @@ The BOM for project was under package `com.pp.bom`.  Following BOM have been add
 	* ```parking.reqestParking(car)```: To request a parking slot for the given car.
 	* ```parking.exitParking(Car)```: exit the parking, This will return a ticketID which can be used to access the parking tickets, amount to be paid, record payment.
 	* ```parking.getBillingAmount(ticketId)```
-	* ```parking.isBillPaid(ticketId)```
+	* ```parking.isBillPaid(ticketId)```: Check is given bill id has been paid or not?
 	* ```parking.payBill(ticketId)```: Records that payment has been done for given bill ID.
 	* ```parking.getAllUnPaidBill()```: Get a table with ticketId, car ID and billing amount.
 

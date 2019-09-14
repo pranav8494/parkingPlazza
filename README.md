@@ -12,6 +12,8 @@ Simply checkout the project and from bash run following to setup dev env. for ec
 
 ```./gradlew eclipse```
 
+Once this is run, you can import the project in Eclipse using the "Import Existing Project" option.
+
 ### List all build tasks:
 
 ```./gradlew tasks```

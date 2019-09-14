@@ -43,7 +43,8 @@ The BOM for project was under package `com.pp.bom`.  Following BOM have been add
 * [ParkingRate](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/pricingPolicy/ParkingRate.java): An interface to define a pricing policy. Following imlementation exist and others can be added:
  	* HourlyParkingRate
  	* HourlyWithFixedParkingRate
-* [ParkingSlot](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/parking/ParkingSlot.java): Represents a Parking slot. They are added when a [`TollParking`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/TollParking.java) object is instantiated. Following extenstions exist and may be added depending on the need:
+	* MinuteBasedPricing: This one existing out of BOM representing an external pricing defined which can later be used in TollParking.
+* [ParkingSlot](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/parking/ParkingSlot.java): Represents a Parking slot. They are added when a [`TollParking`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/TollParking.java) object is instantiated. Following extenstions exist and more may be added depending on the need:
  	* [`ParkingForGasolineCar`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/parking/ParkingForGasolineCar.java)
  	* [`ParkingForElectric20KW`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/parking/ParkingForElectric20KW.java)
  	* [`ParkingForElectric50KW`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/parking/ParkingForElectric50KW.java)

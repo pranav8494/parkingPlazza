@@ -1,12 +1,12 @@
 package com.pp;
 
-import static org.junit.Assert.*;
-
 import java.util.HashMap;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Optional;
 import com.pp.bom.Address;
@@ -17,6 +17,7 @@ import com.pp.bom.vehicle.Car;
 
 public class TollParkingTest {
 
+	private static final Logger LOG = LoggerFactory.getLogger(TollParkingTest.class);
 	TollParking parking;
 	Car g1, g2, g3, g4, e20k1, e20k2, e20k3, e50k1, e50k2;
 	@Before
@@ -28,7 +29,7 @@ public class TollParkingTest {
     	slotCapacity.put(CarTypeEnum.ELECTRIC_20KW, 2);
     	slotCapacity.put(CarTypeEnum.ELECTRIC_50KW, 1);
     	
-    	ParkingRate rate = new ParkingRate.HourlyParkingRate(1);
+    	ParkingRate rate = new ParkingRate.HourlyWithFixedParkingRate(1,20);
     	this.parking = new TollParking("Hello Parking LOT", lotAddress, slotCapacity, rate);
     	
     	g1  = new Car("g1", CarTypeEnum.GASOLINE);
@@ -60,7 +61,7 @@ public class TollParkingTest {
 		Optional<String> e50k1TicketId = this.parking.exitParking(e50k1);
 		Assert.assertTrue("Bill should be there.", e50k1TicketId.isPresent());
 		if(e50k1TicketId.isPresent())
-			System.out.println("Bill ID: " + e50k1TicketId.get());
+			LOG.info("Bill ID: " + e50k1TicketId.get());
 		
 		// Exit a car which is not in parking
 		Optional<String> e50k2TicketId = this.parking.exitParking(e50k2);
@@ -72,10 +73,7 @@ public class TollParkingTest {
 		
 		
 		
-		
-		
-		
-		
+		LOG.info("All Unpaid bills: {}" , parking.getAllUnpaidBillDetail());
 	}
 
 }

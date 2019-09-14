@@ -41,4 +41,10 @@ public class Car {
 		return this.type;
 	}
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "{id: " + this.id + ", type: " + this.type.name() + "}";
+	}
+	
 }

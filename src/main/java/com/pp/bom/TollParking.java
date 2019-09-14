@@ -1,8 +1,6 @@
 package com.pp.bom;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -13,9 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
 import com.pp.bom.parking.ParkingForElectric20KW;
 import com.pp.bom.parking.ParkingForElectric50KW;
@@ -88,6 +84,7 @@ public class TollParking {
 	 */
 	private void initSlotMap() {
 
+		LOG.info("Initalizing TollParking: {}", maxSlotCapacity.toString());
 		for (Entry<CarTypeEnum, Integer> e : maxSlotCapacity.entrySet()) {
 			switch (e.getKey()) {
 			case GASOLINE:
@@ -109,6 +106,7 @@ public class TollParking {
 				break;
 			}
 		}
+		LOG.info("Initialization Completed!");
 	}
 
 	/**
@@ -119,6 +117,7 @@ public class TollParking {
 	private void addParkingSlot(ParkingSlot slot) {
 
 		this.parkingSlotTable.put(slot.getSlotType(), slot, true);
+		LOG.info("[ADD SLOT] - {}", slot.getId());
 	}
 
 	/**
@@ -131,6 +130,7 @@ public class TollParking {
 	 */
 	public Optional<ParkingTicket> requestParking(Car car) {
 
+		LOG.info("[ASSIGN SLOT] - Request received for parking for car: {}", car.toString());
 		Optional<ParkingTicket> result = Optional.absent();
 
 		// Checking if car is already in system. Could enhance to check for
@@ -146,6 +146,11 @@ public class TollParking {
 			this.parkingTicketMapByCar.put(car.getRegistrationId(), result.get());
 			this.parkingAssignmentMap.put(slot.get().getId(), car.getRegistrationId());
 			this.parkingSlotTable.put(slot.get().getSlotType(), slot.get(), false);
+
+			LOG.info("[ASSIGN SLOT] - Found Slot for car: {} --> slot: {}", car.toString(), slot.toString());
+			LOG.info("[ASSIGN SLOT] - Parking Ticket issued: {}", result.get().toString());
+		} else {
+			LOG.info("[ASSIGN SLOT] - OOPSS no slot availble for car: {}", car.toString());
 		}
 		return result;
 	}
@@ -169,19 +174,22 @@ public class TollParking {
 	public Optional<String> exitParking(Car car) {
 		long result = 0;
 
+		LOG.info("[EXIT PARKING] - Exiting parking car: {}", car.toString());
 		ParkingTicket ticket = this.parkingTicketMapByCar.get(car.getRegistrationId());
-		if(ticket != null){
-		result = this.parkingRate.computeCharges(car, ticket.setExitDateTime().toStandardMinutes().getMinutes());
+		if (ticket != null) {
+			result = this.parkingRate.computeCharges(car, ticket.setExitDateTime().toStandardMinutes().getMinutes());
 
-		ticket.setBillingAmount(result);
-		this.archivedParkingTickets.put(ticket.getId(), ticket);
-		this.parkingTicketMapByCar.remove(car.getRegistrationId());
-		this.parkingAssignmentMap.remove(ticket.getSlot().getId(), car.getRegistrationId());
-		this.parkingSlotTable.put(ticket.getSlot().getSlotType(), ticket.getSlot(), true);
+			ticket.setBillingAmount(result);
+			this.archivedParkingTickets.put(ticket.getId(), ticket);
+			this.parkingTicketMapByCar.remove(car.getRegistrationId());
+			this.parkingAssignmentMap.remove(ticket.getSlot().getId(), car.getRegistrationId());
+			this.parkingSlotTable.put(ticket.getSlot().getSlotType(), ticket.getSlot(), true);
 
-		return Optional.fromNullable(ticket.getId());
-		}
-		else{
+			LOG.info("[EXIT PARKING] - Parking Ticket found for car: {}  ->  billing: {} --> ticket: {}", car.toString(), result, ticket.toString());
+			
+			return Optional.fromNullable(ticket.getId());
+		} else {
+			LOG.info("[EXIT PARKING] - No parking Ticket found for car: {}", car.toString());
 			return Optional.absent();
 		}
 	}

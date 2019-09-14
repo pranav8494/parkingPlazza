@@ -55,23 +55,24 @@ public class ParkingTicket {
 	public DateTime getExitDateTime() {
 		return exitDateTime;
 	}
-	
-	protected final void setBillingAmount(long billingAmount){
+
+	protected final void setBillingAmount(long billingAmount) {
 		this.billingAmount = billingAmount;
 	}
-	
-	public final long getBillingAmount(){
+
+	public final long getBillingAmount() {
 		return this.billingAmount;
 	}
-	
-	protected final void setIsBillPaid(boolean isBillPaid){
-		
+
+	protected final void setIsBillPaid(boolean isBillPaid) {
+
 		this.isBillPaid = isBillPaid;
 	}
 
-	public final boolean isBillPaid(){
+	public final boolean isBillPaid() {
 		return this.isBillPaid;
 	}
+
 	/**
 	 * Sets the exit time for a Car on the {@link ParkingTicket} and returns the
 	 * duration car was parked. If the exit time on the ticket is already
@@ -85,5 +86,12 @@ public class ParkingTicket {
 		} else {
 			return this.minutesParked;
 		}
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "{id: " + this.id + ", car: " + car.toString() + "entryAt: " + this.entryDateTime.toString()
+				+ ", BillingAmount: " + billingAmount + ", hasPaid: " + this.isBillPaid + "}";
 	}
 }

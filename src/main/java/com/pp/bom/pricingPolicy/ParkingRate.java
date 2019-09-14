@@ -20,7 +20,7 @@ public interface ParkingRate {
 	 * Which {@link RatePolicy} is being used.
 	 * @return
 	 */
-	public RatePolicy getRatePolicy();
+	public String getRatePolicy();
 	
 	/**
 	 * Class for Hourly Parking Rate
@@ -49,8 +49,8 @@ public interface ParkingRate {
 		}
 
 		@Override
-		public RatePolicy getRatePolicy(){
-			return this.ratePolicy;
+		public String getRatePolicy(){
+			return this.ratePolicy.name();
 		}	
 	}
 	
@@ -90,8 +90,8 @@ public interface ParkingRate {
 		}
 
 		@Override
-		public RatePolicy getRatePolicy(){
-			return this.ratePolicy;
+		public String getRatePolicy(){
+			return this.ratePolicy.name();
 		}	
 	}
 	 

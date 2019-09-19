@@ -6,6 +6,17 @@ import org.joda.time.Duration;
 import com.pp.bom.parking.ParkingSlot;
 import com.pp.bom.vehicle.Car;
 
+/**
+ * Class for ParkingTicket.
+ *
+ * </br>
+ * The contructor is protected as we don't want anyone else except the
+ * TollParking to create a parking tickets. Also all the seters are kept
+ * protected to limit the usage out of the package
+ * 
+ * @author ppandey
+ *
+ */
 public class ParkingTicket {
 
 	private final String id;
@@ -60,23 +71,38 @@ public class ParkingTicket {
 		this.billingAmount = billingAmount;
 	}
 
+	/**
+	 * Gets the billing amount calculated based on number of minutes the vehicle was parked.
+	 * @return
+	 */
 	public final long getBillingAmount() {
 		return this.billingAmount;
 	}
 
+	/**
+	 * The set billPayment flag to <code>true</code>
+	 * @param isBillPaid
+	 */
 	protected final void setIsBillPaid(boolean isBillPaid) {
 
 		this.isBillPaid = isBillPaid;
 	}
 
+	/**
+	 * Returns <code>true</code> or <code>false</code> based on the bill payment status.
+	 * @return
+	 */
 	public final boolean isBillPaid() {
 		return this.isBillPaid;
 	}
 
 	/**
 	 * Sets the exit time for a Car on the {@link ParkingTicket} and returns the
-	 * duration car was parked. If the exit time on the ticket is already
-	 * registered, returns the minutes parked based on the save exit time.
+	 * duration car was parked. </br>
+	 * If the exit time on the ticket is already registered, returns the minutes
+	 * parked based on the save exit time.
+	 * 
+	 * @return {@link Duration} between entry and exit time. if the the vehicle has not exited yet, returns ZERO.
 	 */
 	protected final Duration setExitDateTime() {
 		if (this.exitDateTime == null) {

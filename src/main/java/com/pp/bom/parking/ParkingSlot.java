@@ -27,7 +27,20 @@ public abstract class ParkingSlot {
 	 * @param id
 	 * @param slotType
 	 */
-	public ParkingSlot(String id, CarTypeEnum slotType) {
+	protected ParkingSlot(CarTypeEnum slotType) {
+
+		this.id = UUID.randomUUID().toString();
+		this.slotType = slotType;
+	}
+	
+	/**
+	 * Constructor. Given ID is appended with a randomly generated unique ID
+	 * text.
+	 * 
+	 * @param id
+	 * @param slotType
+	 */
+	protected ParkingSlot(String id, CarTypeEnum slotType) {
 
 		this.id = id + "_" + UUID.randomUUID().toString();
 		this.slotType = slotType;

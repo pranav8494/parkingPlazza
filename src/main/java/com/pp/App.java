@@ -19,9 +19,6 @@ public class App {
     	slotCapacity.put(CarTypeEnum.ELECTRIC_20KW, 2);
     	slotCapacity.put(CarTypeEnum.ELECTRIC_50KW, 1);
     	
-    	ParkingRate rate = new ParkingRate.HourlyWithFixedParkingRate(1,20);
-    	TollParking parking = new TollParking("Hello Parking LOT", lotAddress, slotCapacity, rate);
-    
     	// Do Something here to use parking.
     }
 }

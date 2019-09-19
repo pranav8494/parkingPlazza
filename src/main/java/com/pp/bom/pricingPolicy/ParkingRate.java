@@ -31,25 +31,25 @@ public interface ParkingRate {
 
 		private long hourlyFee = 0;
 		private RatePolicy ratePolicy = RatePolicy.HOURLY_ONLY;
-		public HourlyParkingRate(long hourlyFee) {
+		protected HourlyParkingRate(long hourlyFee) {
 
 			this.hourlyFee = hourlyFee;
 		}
 		
 		@Override
-		public long computeCharges(Car vehicle, long minutes) {
+		public final long computeCharges(Car vehicle, long minutes) {
 			return (minutes/60) * hourlyFee;
 		}
 		
 		/**
 		 * @return the hourlyFee
 		 */
-		public long getHourlyFee() {
+		public final long getHourlyFee() {
 			return hourlyFee;
 		}
 
 		@Override
-		public String getRatePolicy(){
+		public final String getRatePolicy(){
 			return this.ratePolicy.name();
 		}	
 	}
@@ -64,35 +64,34 @@ public interface ParkingRate {
 		private long hourlyFee = 0;
 		private long fixedFee = 0;
 		private RatePolicy ratePolicy = RatePolicy.HOURLY_ONLY;
-		public HourlyWithFixedParkingRate(long hourlyFee, long fixedFee) {
+		protected HourlyWithFixedParkingRate(long hourlyFee, long fixedFee) {
 
 			this.hourlyFee = hourlyFee;
 			this.fixedFee = fixedFee;
 		}
 		
 		@Override
-		public long computeCharges(Car vehicle, long minutes) {
+		public final long computeCharges(Car vehicle, long minutes) {
 			return fixedFee + (minutes/60) * hourlyFee;
 		}
 
 		/**
 		 * @return the hourlyFee
 		 */
-		public long getHourlyFee() {
+		public final long getHourlyFee() {
 			return hourlyFee;
 		}
 
 		/**
 		 * @return the fixedFee
 		 */
-		public long getFixedFee() {
+		public final long getFixedFee() {
 			return fixedFee;
 		}
 
 		@Override
-		public String getRatePolicy(){
+		public final String getRatePolicy(){
 			return this.ratePolicy.name();
 		}	
 	}
-	 
 }

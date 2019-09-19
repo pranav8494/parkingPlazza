@@ -1,6 +1,8 @@
 package com.pp.bom;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -17,6 +19,7 @@ import com.pp.bom.parking.ParkingForElectric20KW;
 import com.pp.bom.parking.ParkingForElectric50KW;
 import com.pp.bom.parking.ParkingForGasolineCar;
 import com.pp.bom.parking.ParkingSlot;
+import com.pp.bom.parking.ParkingSlotFactory;
 import com.pp.bom.pricingPolicy.ParkingRate;
 import com.pp.bom.vehicle.Car;
 
@@ -84,29 +87,32 @@ public class TollParking {
 	 */
 	private void initSlotMap() {
 
-		LOG.info("Initalizing TollParking: {}", maxSlotCapacity.toString());
-		for (Entry<CarTypeEnum, Integer> e : maxSlotCapacity.entrySet()) {
-			switch (e.getKey()) {
-			case GASOLINE:
-				for (int i = 0; i < e.getValue(); i++) {
-					addParkingSlot(new ParkingForGasolineCar(Integer.toString(i)));
-				}
-				break;
-			case ELECTRIC_20KW:
-				for (int i = 0; i < e.getValue(); i++) {
-					addParkingSlot(new ParkingForElectric20KW(Integer.toString(i)));
-				}
-				break;
-			case ELECTRIC_50KW:
-				for (int i = 0; i < e.getValue(); i++) {
-					addParkingSlot(new ParkingForElectric50KW(Integer.toString(i)));
-				}
-				break;
-			default:
-				break;
-			}
+		LOG.info("[TollParking] Initalizing for: {}", maxSlotCapacity.toString());
+		ParkingSlotFactory slotFactory = new ParkingSlotFactory();
+		maxSlotCapacity.entrySet().stream().forEach(
+				entry -> {
+					this.parkingSlotTable.putAll(addSlots(slotFactory, entry.getKey(), entry.getValue()));
+					});
+		
+		LOG.info("[TollParking] Initialization Completed!");
+	}
+
+	/**
+	 * Returns a {@link List} of {@link ParkingSlot}s based on given {@link CarTypeEnum} and number of slots. 
+	 * @param slotFactory
+	 * @param type
+	 * @param numberOfSlots
+	 * @return
+	 */
+	private Table<CarTypeEnum, ParkingSlot, Boolean> addSlots(ParkingSlotFactory slotFactory, CarTypeEnum type, Integer numberOfSlots) {
+		Table<CarTypeEnum, ParkingSlot, Boolean> slots = HashBasedTable.create();
+		for(int i = 0; i<numberOfSlots; i++){
+			ParkingSlot slot = slotFactory.createParkingSlot(type);
+			slots.put(slot.getSlotType(), slot, true);
 		}
-		LOG.info("Initialization Completed!");
+		
+		return slots;
+		
 	}
 
 	/**

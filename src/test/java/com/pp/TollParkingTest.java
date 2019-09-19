@@ -14,6 +14,8 @@ import com.pp.bom.CarTypeEnum;
 import com.pp.bom.ParkingTicket;
 import com.pp.bom.TollParking;
 import com.pp.bom.pricingPolicy.ParkingRate;
+import com.pp.bom.pricingPolicy.ParkingRateFactory;
+import com.pp.bom.pricingPolicy.ParkingRate.RatePolicy;
 import com.pp.bom.vehicle.Car;
 
 public class TollParkingTest {
@@ -25,13 +27,15 @@ public class TollParkingTest {
 	public void setUp() throws Exception {
 		
     	Address lotAddress = new Address("Route de Nice", "Antibes", "06600", "FR");
-    	HashMap<CarTypeEnum, Integer> slotCapacity = new HashMap<CarTypeEnum, Integer>();
-    	slotCapacity.put(CarTypeEnum.GASOLINE, 4);
-    	slotCapacity.put(CarTypeEnum.ELECTRIC_20KW, 2);
-    	slotCapacity.put(CarTypeEnum.ELECTRIC_50KW, 1);
+    	HashMap<CarTypeEnum, Integer> slotCapacityConfigMap = new HashMap<CarTypeEnum, Integer>();
+    	slotCapacityConfigMap.put(CarTypeEnum.GASOLINE, 4);
+    	slotCapacityConfigMap.put(CarTypeEnum.ELECTRIC_20KW, 2);
+    	slotCapacityConfigMap.put(CarTypeEnum.ELECTRIC_50KW, 1);
     	
-    	ParkingRate rate = new ParkingRate.HourlyWithFixedParkingRate(1,20);
-    	this.parking = new TollParking("Hello Parking LOT", lotAddress, slotCapacity, rate);
+    	ParkingRateFactory rateFactory = new ParkingRateFactory();    	
+    	ParkingRate rate = rateFactory.getParkingPolicy(RatePolicy.HOURLY_WITH_FIXED, 1, Optional.fromNullable(new Long(20)));
+    	
+    	this.parking = new TollParking("Hello Parking LOT", lotAddress, slotCapacityConfigMap, rate);
     	
     	g1  = new Car("g1", CarTypeEnum.GASOLINE);
     	g2  = new Car("g2", CarTypeEnum.GASOLINE);

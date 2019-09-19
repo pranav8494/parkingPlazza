@@ -31,9 +31,9 @@ With the above command, the jar will be placed under `build\libs`.
 
 ### BOM
 
-The BOM for project was under package `com.pp.bom`.  Following BOM have been added (in alphabetical order): 
+The BOM for project is under package `com.pp.bom`.  Following BOM have been added (in alphabetical order): 
 * [`Address`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/Address.java): Represnts an address.
-* [`Car`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/vehicle/Car.java): Representing a car, which may need a parking slot in the parking plazza. The constructor of `Car` class needs two arguments:
+* [`Car`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/vehicle/Car.java): A class representing a car (can be a abstract class or an abstract class `Vehicle` can be added of this `Car` could be an extenstion), which may need a parking slot in the parking plazza. The constructor of `Car` class needs two arguments:
   * `id`: Which can't be emtpy, else throw an `IllegalArgumentException`.
   * `type`: [`CarEnumType`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/CarTypeEnum.java)
 	```
@@ -41,9 +41,10 @@ The BOM for project was under package `com.pp.bom`.  Following BOM have been add
 	```
 * [`CarEnumType`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/CarTypeEnum.java): Enums to represent car types.
 * [ParkingRate](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/pricingPolicy/ParkingRate.java): An interface to define a pricing policy. Following imlementation exist and others can be added:
- 	* HourlyParkingRate
- 	* HourlyWithFixedParkingRate
-* [ParkingSlot](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/parking/ParkingSlot.java): Represents a Parking slot. They are added when a [`TollParking`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/TollParking.java) object is instantiated. Following extenstions exist and may be added depending on the need:
+ 	* `HourlyParkingRate`
+ 	* `HourlyWithFixedParkingRate`
+	* [`MinuteBasedPricing`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/MinuteBasedPricing.java): This one existing out of BOM representing an external pricing defined which can later be used in TollParking.
+* [ParkingSlot](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/parking/ParkingSlot.java): An Abstract to represent a Parking slot. They are added when a [`TollParking`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/TollParking.java) object is instantiated. Following extenstions exist and more may be added depending on the need:
  	* [`ParkingForGasolineCar`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/parking/ParkingForGasolineCar.java)
  	* [`ParkingForElectric20KW`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/parking/ParkingForElectric20KW.java)
  	* [`ParkingForElectric50KW`](https://github.com/pranav8494/parkingPlazza/blob/master/src/main/java/com/pp/bom/parking/ParkingForElectric50KW.java)
